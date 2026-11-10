@@ -140,6 +140,16 @@ fragment EndpointFeatures on Endpoint {
         timeOfSample
         timeOfLastChange
       }
+      ... on HvacCoolerStage {
+        coolerStageValue { value }
+        timeOfSample
+        timeOfLastChange
+      }
+      ... on HvacPrimaryHeaterStage {
+        primaryHeaterStageValue { value }
+        timeOfSample
+        timeOfLastChange
+      }
       ... on ThermostatScheduleScheduleEnabled {
         thermostatScheduleScheduleEnabledValue { value }
         timeOfSample

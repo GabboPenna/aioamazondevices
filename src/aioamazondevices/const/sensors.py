@@ -108,6 +108,16 @@ SENSOR_TEMPLATES: dict[str, dict[str, SensorTemplate]] = {
             "value_key": "thermostatModeValue",
         },
     },
+    "hvac": {
+        "coolerStage": {
+            "value_key": "coolerStageValue",
+            "value_subkey": "value",
+        },
+        "primaryHeaterStage": {
+            "value_key": "primaryHeaterStageValue",
+            "value_subkey": "value",
+        },
+    },
     "thermostatConfiguration": {
         "allowedTemperatureRange": {
             "value_key": "thermostatAllowedTemperatureRangeValue",
@@ -222,5 +232,6 @@ SPECIFIC_SENSORS: dict[str, dict[str, dict[str, SpecificSensor]]] = {
         },
         "thermostat": {"": {}},
         "thermostatConfiguration": {"": {}},
+        "hvac": {"": {}},
     },
 }

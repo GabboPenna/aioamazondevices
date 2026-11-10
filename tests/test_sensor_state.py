@@ -261,6 +261,24 @@ def _thermostat_endpoint() -> dict[str, Any]:
                 ],
             },
             {
+                "name": "hvac",
+                "instance": None,
+                "properties": [
+                    {
+                        "name": "coolerStage",
+                        "error": None,
+                        "__typename": "HvacCoolerStage",
+                        "coolerStageValue": {"value": "OFF"},
+                    },
+                    {
+                        "name": "primaryHeaterStage",
+                        "error": None,
+                        "__typename": "HvacPrimaryHeaterStage",
+                        "primaryHeaterStageValue": {"value": "STAGE_1"},
+                    },
+                ],
+            },
+            {
                 "name": "mode",
                 "instance": "5",
                 "properties": [
@@ -293,6 +311,8 @@ async def test_thermostat_sensors_are_read(
         "lowerSetpoint": (65.0, "FAHRENHEIT"),
         "thermostatMode": ("AUTO", None),
         "allowedTemperatureRange": (TEST_ALLOWED_TEMPERATURE_RANGE, None),
+        "coolerStage": ("OFF", None),
+        "primaryHeaterStage": ("STAGE_1", None),
         "fan_mode": ("2", None),
     }
 
