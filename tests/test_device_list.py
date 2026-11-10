@@ -113,7 +113,7 @@ def _feature(**overrides: object) -> AmazonDeviceFeature:
     fields: dict[str, Any] = {
         "supported_operations": [],
         "properties": [],
-        "supported_modes": [],
+        "supported_modes": {},
         "friendly_name": None,
         "minimum_value": None,
         "maximum_value": None,
@@ -469,6 +469,17 @@ async def test_features_are_read_for_the_built_devices(
         "unitOfMeasure": _text("Alexa.Unit.Percent"),
         "presets": None,
     }
+    # light modes have numeric IDs, only the friendly names are meaningful
+    mode_configuration = {
+        "friendlyName": _text("Mode"),
+        "order": "UNORDERED",
+        "modeOptions": [
+            {"value": "4", "modeResources": {"friendlyName": _text("Campfire")}},
+            {"value": "6", "modeResources": {"friendlyName": _text("Christmas")}},
+            # options without a friendly name fall back to the ID
+            {"value": "3", "modeResources": None},
+        ],
+    }
     features: list[dict[str, Any]] = [
         {
             "name": "power",
@@ -478,11 +489,9 @@ async def test_features_are_read_for_the_built_devices(
         },
         {
             "name": "mode",
-            "instance": "Fan.Speed",
+            "instance": "1",
             "operations": [{"name": "setMode"}],
-            "configuration": {
-                "modeOptions": [{"value": "Low"}, {"value": "High"}],
-            },
+            "configuration": mode_configuration,
         },
         {
             "name": "thermostat",
@@ -564,17 +573,16 @@ async def test_features_are_read_for_the_built_devices(
         "motionSensor": {"": _feature(properties=["sensitivity"])},
         "power": {"": _feature(supported_operations=["turnOn", "turnOff"])},
         "mode": {
-            "Fan.Speed": _feature(
+            "1": _feature(
                 supported_operations=["setMode"],
-                supported_modes=["Low", "High"],
-                raw_configuration={
-                    "modeOptions": [{"value": "Low"}, {"value": "High"}],
-                },
+                supported_modes={"4": "Campfire", "6": "Christmas", "3": "3"},
+                friendly_name="Mode",
+                raw_configuration=mode_configuration,
             )
         },
         "thermostat": {
             "": _feature(
-                supported_modes=["HEAT", "OFF"],
+                supported_modes={"HEAT": "HEAT", "OFF": "OFF"},
                 raw_configuration={"supportedModes": ["HEAT", "OFF"]},
             )
         },
